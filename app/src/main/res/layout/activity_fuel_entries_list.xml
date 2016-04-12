@@ -19,7 +19,7 @@
         android:layout_margin="16dp"
         android:clickable="true"
         android:onClick="onAddButtonPressed"
-        android:src="@android:drawable/ic_input_add"
+        android:src="@drawable/ic_add_24dp"
         app:fabSize="normal"/>
 
 </android.support.design.widget.CoordinatorLayout>
