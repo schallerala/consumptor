@@ -14,13 +14,20 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.NumberPicker;
+import android.widget.ResourceCursorAdapter;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Model;
 import com.activeandroid.content.ContentProvider;
+
+import org.w3c.dom.Text;
+
+import java.text.DateFormat;
 
 import rol.metropolia.fi.consumptor.Models.FuelEntry;
 
@@ -45,15 +52,7 @@ public class FuelEntriesListActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.list_view);
         addButton = (FloatingActionButton) findViewById(R.id.add_button);
 
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
-                android.R.layout.simple_list_item_1,
-                null,
-                new String[]{"fuel"},
-                new int[]{android.R.id.text1},
-                0) {
-        };
-
-        listView.setAdapter(adapter);
+        listView.setAdapter(new FuelEntriesAdapter(this));
 
         getSupportLoaderManager().initLoader(0, null, new LoaderManager.LoaderCallbacks<Cursor>() {
             @Override
@@ -68,12 +67,12 @@ public class FuelEntriesListActivity extends AppCompatActivity {
 
             @Override
             public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-                ((SimpleCursorAdapter) listView.getAdapter()).swapCursor(data);
+                ((CursorAdapter) listView.getAdapter()).swapCursor(data);
             }
 
             @Override
             public void onLoaderReset(Loader<Cursor> loader) {
-                ((SimpleCursorAdapter) listView.getAdapter()).swapCursor(null);
+                ((CursorAdapter) listView.getAdapter()).swapCursor(null);
             }
         });
     }
@@ -134,4 +133,32 @@ public class FuelEntriesListActivity extends AppCompatActivity {
         }
     }
 
+
+    private class FuelEntriesAdapter extends ResourceCursorAdapter {
+
+        private FuelEntriesAdapter(Context context) {
+
+            super(context, R.layout.item_fuel_entry_list, null, false);
+        }
+
+        @Override
+        public void bindView(View view, Context context, Cursor cursor) {
+
+            FuelEntry entry = new FuelEntry();
+
+            entry.loadFromCursor(cursor);
+
+            TextView dateTextView = (TextView) view.findViewById(R.id.date_text_view);
+            TextView odometerTextView = (TextView) view.findViewById(R.id.odometer_text_view);
+            TextView fuelTextView = (TextView) view.findViewById(R.id.fuel_text_view);
+
+            String dateTitle = DateFormat.getDateInstance().format(entry.createdOn);
+            String odometerTitle = context.getResources().getString(R.string.odometer_km_format, entry.odometer);
+            String fuelTitle = context.getResources().getString(R.string.fuel_liter_format, entry.fuel);
+
+            dateTextView.setText(dateTitle);
+            odometerTextView.setText(odometerTitle);
+            fuelTextView.setText(fuelTitle);
+        }
+    }
 }
