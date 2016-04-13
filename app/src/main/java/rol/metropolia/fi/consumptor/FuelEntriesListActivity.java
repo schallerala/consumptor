@@ -62,7 +62,7 @@ public class FuelEntriesListActivity extends AppCompatActivity {
                         null,
                         null,
                         null,
-                        "createdOn");
+                        "createdOn DESC");
             }
 
             @Override
@@ -79,46 +79,9 @@ public class FuelEntriesListActivity extends AppCompatActivity {
 
     public void onAddButtonPressed(View view) {
 
-//        Intent intent = new Intent(this, FuelEntryActivity.class);
-//
-//        startActivityForResult(intent, -1);
+        Intent intent = new Intent(this, FuelEntryActivity.class);
 
-        showFuelAmountPicker();
-    }
-
-    private void showFuelAmountPicker() {
-
-        final NumberPicker picker = new NumberPicker(this);
-
-        String[] nums = new String[20];
-        for (int i = 0; i < nums.length; i++)
-            nums[i] = Integer.toString(i);
-
-        picker.setMinValue(1);
-        picker.setMaxValue(20);
-        picker.setWrapSelectorWheel(false);
-        picker.setDisplayedValues(nums);
-        picker.setValue(1);
-
-        new AlertDialog.Builder(this).setView(picker).setTitle("Enter fuel amount")
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        onFuelAmountReceived(picker.getValue());
-                    }
-                }).show();
-    }
-
-    private void onFuelAmountReceived(int amount) {
-
-        FuelEntry entry = new FuelEntry();
-
-        entry.odometer = 1000;
-        entry.fuel = amount;
-
-        entry.save();
+        startActivityForResult(intent, -1);
     }
 
     @Override
@@ -127,12 +90,9 @@ public class FuelEntriesListActivity extends AppCompatActivity {
 
         if (resultCode == Activity.RESULT_OK) {
 
-//            String result = data.getStringExtra(CurrencyPickerActivity.CONVERSION_RESULT);
-//
-//            resultTextView.setText(result);
+            // TODO: 4/13/16 recalculate the average
         }
     }
-
 
     private class FuelEntriesAdapter extends ResourceCursorAdapter {
 

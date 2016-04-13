@@ -3,4 +3,9 @@
     <string name="title_activity_deleteme">Deleteme</string>
     <string name="odometer_km_format">%1$d km</string>
     <string name="fuel_liter_format">%1$d l</string>
+    <string name="odometer_hint">Odometer value</string>
+    <string name="fuel_hint">Fuel added(in litres)</string>
+    <string name="fuel_entry_create">Create</string>
+    <string name="fuel_validation_failed">Enter a fuel amount</string>
+    <string name="odometer_validation_failed">Enter a odometer value</string>
 </resources>
