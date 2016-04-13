@@ -86,13 +86,11 @@ public class FuelEntryActivity extends AppCompatActivity implements View.OnClick
 
         Calendar calendar = Calendar.getInstance();
 
-        calendar.clear();
-
         calendar.set(Calendar.YEAR, datePicker.getYear());
         calendar.set(Calendar.MONTH, datePicker.getMonth());
         calendar.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
-        calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
-        calendar.set(Calendar.MINUTE, timePicker.getMinute());
+        calendar.set(Calendar.HOUR_OF_DAY, timePicker.getCurrentHour());
+        calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
 
         createFuelEntryAndFinish(fuel, odometerValue, calendar.getTime());
     }
