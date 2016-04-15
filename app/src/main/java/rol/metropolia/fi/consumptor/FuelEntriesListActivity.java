@@ -1,31 +1,31 @@
 package rol.metropolia.fi.consumptor;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.database.Cursor;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CursorAdapter;
-import android.widget.ListView;
-import android.widget.NumberPicker;
 import android.widget.ResourceCursorAdapter;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
-import com.activeandroid.Model;
 import com.activeandroid.content.ContentProvider;
-
-import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 
@@ -39,8 +39,9 @@ import rol.metropolia.fi.consumptor.Models.FuelEntry;
  */
 public class FuelEntriesListActivity extends AppCompatActivity {
 
-    private ListView listView;
+    private RecyclerView recyclerView;
     private FloatingActionButton addButton;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +50,16 @@ public class FuelEntriesListActivity extends AppCompatActivity {
 
         ActiveAndroid.initialize(this);
 
-        listView = (ListView) findViewById(R.id.list_view);
+        recyclerView = (RecyclerView) findViewById(R.id.list_view);
         addButton = (FloatingActionButton) findViewById(R.id.add_button);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        listView.setAdapter(new FuelEntriesAdapter(this));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this));
+
+        recyclerView.setAdapter(new MyRecyclerAdapter(this));
+
+        setSupportActionBar(toolbar);
 
         getSupportLoaderManager().initLoader(0, null, new LoaderManager.LoaderCallbacks<Cursor>() {
             @Override
@@ -67,12 +74,12 @@ public class FuelEntriesListActivity extends AppCompatActivity {
 
             @Override
             public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-                ((CursorAdapter) listView.getAdapter()).swapCursor(data);
+                ((MyRecyclerAdapter) recyclerView.getAdapter()).mCursorAdapter.swapCursor(data);
             }
 
             @Override
             public void onLoaderReset(Loader<Cursor> loader) {
-                ((CursorAdapter) listView.getAdapter()).swapCursor(null);
+                ((MyRecyclerAdapter) recyclerView.getAdapter()).mCursorAdapter.swapCursor(null);
             }
         });
     }
@@ -91,6 +98,52 @@ public class FuelEntriesListActivity extends AppCompatActivity {
         if (resultCode == Activity.RESULT_OK) {
 
             // TODO: 4/13/16 recalculate the average
+        }
+    }
+
+    public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder> {
+
+        // Because RecyclerView.Adapter in its current form doesn't natively
+        // support cursors, we wrap a CursorAdapter that will do all the job
+        // for us.
+        CursorAdapter mCursorAdapter;
+
+        Context mContext;
+
+        public MyRecyclerAdapter(Context context) {
+
+            mContext = context;
+
+            mCursorAdapter = new FuelEntriesAdapter(mContext);
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return mCursorAdapter.getCount();
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+
+            // Passing the binding operation to cursor loader
+            mCursorAdapter.getCursor().moveToPosition(position);
+            mCursorAdapter.bindView(holder.itemView, mContext, mCursorAdapter.getCursor());
+
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+            // Passing the inflater job to the cursor-adapter
+            View v = mCursorAdapter.newView(mContext, mCursorAdapter.getCursor(), parent);
+            return new ViewHolder(v);
         }
     }
 
@@ -119,6 +172,48 @@ public class FuelEntriesListActivity extends AppCompatActivity {
             dateTextView.setText(dateTitle);
             odometerTextView.setText(odometerTitle);
             fuelTextView.setText(fuelTitle);
+        }
+    }
+
+    public static class DividerItemDecoration extends RecyclerView.ItemDecoration {
+
+        private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
+
+        private Drawable mDivider;
+
+        /**
+         * Default divider will be used
+         */
+        public DividerItemDecoration(Context context) {
+            final TypedArray styledAttributes = context.obtainStyledAttributes(ATTRS);
+            mDivider = styledAttributes.getDrawable(0);
+            styledAttributes.recycle();
+        }
+
+        /**
+         * Custom divider will be used
+         */
+        public DividerItemDecoration(Context context, int resId) {
+            mDivider = ContextCompat.getDrawable(context, resId);
+        }
+
+        @Override
+        public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+            int left = parent.getPaddingLeft();
+            int right = parent.getWidth() - parent.getPaddingRight();
+
+            int childCount = parent.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View child = parent.getChildAt(i);
+
+                RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+
+                int top = child.getBottom() + params.bottomMargin;
+                int bottom = top + mDivider.getIntrinsicHeight();
+
+                mDivider.setBounds(left, top, right, bottom);
+                mDivider.draw(c);
+            }
         }
     }
 }

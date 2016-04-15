@@ -1,8 +1,10 @@
 package rol.metropolia.fi.consumptor;
 
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +28,7 @@ import rol.metropolia.fi.consumptor.Models.FuelEntry;
  */
 public class FuelEntryActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private Toolbar toolbar;
     private EditText fuelEditText;
     private EditText odometerEditText;
     private DatePicker datePicker;
@@ -42,6 +45,10 @@ public class FuelEntryActivity extends AppCompatActivity implements View.OnClick
         datePicker = (DatePicker) findViewById(R.id.date_picker);
         timePicker = (TimePicker) findViewById(R.id.time_picker);
         createButton = (Button) findViewById(R.id.create_button);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         createButton.setOnClickListener(this);
     }
