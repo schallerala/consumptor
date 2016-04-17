@@ -1,7 +1,6 @@
-package rol.metropolia.fi.consumptor;
+package team.metropolia.fi.consumptor;
 
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,15 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.NumberPicker;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
 import java.util.Date;
 
-import rol.metropolia.fi.consumptor.Models.FuelEntry;
+import team.metropolia.fi.consumptor.Models.FuelEntry;
 
 /**
  * iConnect iCR

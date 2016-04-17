@@ -1,4 +1,4 @@
-package rol.metropolia.fi.consumptor;
+package team.metropolia.fi.consumptor;
 
 import org.junit.Test;
 

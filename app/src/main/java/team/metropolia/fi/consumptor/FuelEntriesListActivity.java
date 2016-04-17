@@ -1,4 +1,4 @@
-package rol.metropolia.fi.consumptor;
+package team.metropolia.fi.consumptor;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
@@ -18,6 +17,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
@@ -29,7 +30,7 @@ import com.activeandroid.content.ContentProvider;
 
 import java.text.DateFormat;
 
-import rol.metropolia.fi.consumptor.Models.FuelEntry;
+import team.metropolia.fi.consumptor.Models.FuelEntry;
 
 /**
  * iConnect iCR
@@ -49,6 +50,7 @@ public class FuelEntriesListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fuel_entries_list);
 
         ActiveAndroid.initialize(this);
+        Settings.initialize(this);
 
         recyclerView = (RecyclerView) findViewById(R.id.list_view);
         addButton = (FloatingActionButton) findViewById(R.id.add_button);
@@ -60,6 +62,9 @@ public class FuelEntriesListActivity extends AppCompatActivity {
         recyclerView.setAdapter(new MyRecyclerAdapter(this));
 
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        toolbar.inflateMenu(R.menu.main_menu);
 
         getSupportLoaderManager().initLoader(0, null, new LoaderManager.LoaderCallbacks<Cursor>() {
             @Override
@@ -84,11 +89,30 @@ public class FuelEntriesListActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        showSettingsDialog();
+
+        return true;
+    }
+
     public void onAddButtonPressed(View view) {
 
         Intent intent = new Intent(this, FuelEntryActivity.class);
 
         startActivityForResult(intent, -1);
+    }
+
+    private void showSettingsDialog() {
+
+        SettingsDialogBuilder.buildSettingsDialog(this).show();
     }
 
     @Override
@@ -135,7 +159,6 @@ public class FuelEntriesListActivity extends AppCompatActivity {
             // Passing the binding operation to cursor loader
             mCursorAdapter.getCursor().moveToPosition(position);
             mCursorAdapter.bindView(holder.itemView, mContext, mCursorAdapter.getCursor());
-
         }
 
         @Override

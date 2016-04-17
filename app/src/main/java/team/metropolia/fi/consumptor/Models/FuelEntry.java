@@ -1,4 +1,4 @@
-package rol.metropolia.fi.consumptor.Models;
+package team.metropolia.fi.consumptor.Models;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;

@@ -8,4 +8,9 @@
     <string name="fuel_entry_create">Create</string>
     <string name="fuel_validation_failed">Enter a fuel amount</string>
     <string name="odometer_validation_failed">Enter a odometer value</string>
+    <string name="display_units">Display units</string>
+    <string name="button_ok">Ok</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="lp100km_title">Litres per 100 km</string>
+    <string name="mpg_title">Miles per gallon</string>
 </resources>

@@ -1,4 +1,4 @@
-package rol.metropolia.fi.consumptor;
+package team.metropolia.fi.consumptor;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

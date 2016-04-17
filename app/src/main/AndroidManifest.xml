@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-    package="rol.metropolia.fi.consumptor"
+    package="team.metropolia.fi.consumptor"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
@@ -12,16 +12,16 @@
         android:theme="@style/AppTheme.NoActionBar">
         <meta-data
             android:name="AA_MODELS"
-            android:value="rol.metropolia.fi.consumptor.Models.FuelEntry"/>
+            android:value="team.metropolia.fi.consumptor.Models.FuelEntry"/>
 
         <provider
             android:name="com.activeandroid.content.ContentProvider"
-            android:authorities="rol.metropolia.fi.consumptor"
+            android:authorities="team.metropolia.fi.consumptor"
             android:exported="false"/>
 
-        <activity android:name=".MainActivity">
+        <activity android:name="team.metropolia.fi.consumptor.MainActivity">
         </activity>
-        <activity android:name=".FuelEntriesListActivity">
+        <activity android:name="team.metropolia.fi.consumptor.FuelEntriesListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -30,11 +30,11 @@
         </activity>
 
         <activity
-            android:name=".FuelEntryActivity"
-            android:parentActivityName=".FuelEntriesListActivity">
+            android:name="team.metropolia.fi.consumptor.FuelEntryActivity"
+            android:parentActivityName="team.metropolia.fi.consumptor.FuelEntriesListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".FuelEntryActivity"/>
+                android:value="team.metropolia.fi.consumptor.FuelEntryActivity"/>
         </activity>
 
     </application>

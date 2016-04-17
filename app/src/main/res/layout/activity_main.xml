@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="rol.metropolia.fi.consumptor.MainActivity">
+    tools:context="team.metropolia.fi.consumptor.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
