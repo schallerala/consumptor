@@ -19,9 +19,9 @@
             android:authorities="team.metropolia.fi.consumptor"
             android:exported="false"/>
 
-        <activity android:name="team.metropolia.fi.consumptor.MainActivity">
+        <activity android:name=".MainActivity">
         </activity>
-        <activity android:name="team.metropolia.fi.consumptor.FuelEntriesListActivity">
+        <activity android:name=".FuelEntriesListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -30,11 +30,11 @@
         </activity>
 
         <activity
-            android:name="team.metropolia.fi.consumptor.FuelEntryActivity"
-            android:parentActivityName="team.metropolia.fi.consumptor.FuelEntriesListActivity">
+            android:name=".FuelEntryActivity"
+            android:parentActivityName=".FuelEntriesListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="team.metropolia.fi.consumptor.FuelEntryActivity"/>
+                android:value=".FuelEntryActivity"/>
         </activity>
 
     </application>
