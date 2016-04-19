@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -139,6 +140,7 @@ public class FuelEntriesListActivity extends AppCompatActivity {
             mContext = context;
 
             mCursorAdapter = new FuelEntriesAdapter(mContext);
+            mCursorAdapter.registerDataSetObserver(new NotifyingDataSetObserver());
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
@@ -168,6 +170,22 @@ public class FuelEntriesListActivity extends AppCompatActivity {
             View v = mCursorAdapter.newView(mContext, mCursorAdapter.getCursor(), parent);
             return new ViewHolder(v);
         }
+
+        private class NotifyingDataSetObserver extends DataSetObserver {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onInvalidated() {
+                super.onInvalidated();
+                notifyDataSetChanged();
+                //There is no notifyDataSetInvalidated() method in RecyclerView.Adapter
+            }
+        }
+
     }
 
     private class FuelEntriesAdapter extends ResourceCursorAdapter {
