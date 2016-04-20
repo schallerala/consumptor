@@ -9,7 +9,6 @@ import android.database.DataSetObserver;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
@@ -23,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.LinearLayout;
 import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
 
@@ -42,8 +42,9 @@ import team.metropolia.fi.consumptor.Models.FuelEntry;
 public class FuelEntriesListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private FloatingActionButton addButton;
+    private LinearLayout subTitlesContainer;
     private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,19 +54,31 @@ public class FuelEntriesListActivity extends AppCompatActivity {
         ActiveAndroid.initialize(this);
         Settings.initialize(this);
 
+        bindActivity();
+
+        toolbar.inflateMenu(R.menu.main_menu);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        setupRecyclerView();
+    }
+
+    private void bindActivity() {
+
+        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        subTitlesContainer = (LinearLayout) findViewById(R.id.subtitles_container);
         recyclerView = (RecyclerView) findViewById(R.id.list_view);
-        addButton = (FloatingActionButton) findViewById(R.id.add_button);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+    }
+
+    private void setupRecyclerView() {
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         recyclerView.addItemDecoration(new DividerItemDecoration(this));
 
         recyclerView.setAdapter(new MyRecyclerAdapter(this));
 
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        toolbar.inflateMenu(R.menu.main_menu);
 
         getSupportLoaderManager().initLoader(0, null, new LoaderManager.LoaderCallbacks<Cursor>() {
             @Override

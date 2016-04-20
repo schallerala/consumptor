@@ -15,98 +15,65 @@ import android.widget.TextView;
  * Created by Roman Laitarenko on 4/16/16.
  * Copyright (c) 2016 iConnect POS. All rights reserved
  */
-public class TitleTextBehavior extends CoordinatorLayout.Behavior<TextView> {
+public class TitleTextBehavior extends CoordinatorLayout.Behavior<View> {
+    private static final float FINAL_TEXT_SIZE_SCALE = 0.4f;
+    private static final int INITIAL_TEXT_SIZE = 80;
 
-    private Context context;
-    private int initialToolbarHeight;
+    private final int actionBarContentInset;
+    private final int actionBarHeight;
 
     public TitleTextBehavior(Context context, AttributeSet attributeSet) {
 
-        this.context = context;
+        actionBarContentInset = context.getResources()
+                .getDimensionPixelOffset(R.dimen.abc_action_bar_content_inset_material);
+        actionBarHeight = context.getResources()
+                .getDimensionPixelOffset(R.dimen.abc_action_bar_default_height_material);
     }
 
     @Override
-    public boolean layoutDependsOn(CoordinatorLayout parent, TextView child, View dependency) {
+    public boolean layoutDependsOn(CoordinatorLayout parent, View child, View dependency) {
         return dependency instanceof AppBarLayout;
     }
 
     @Override
-    public boolean onDependentViewChanged(CoordinatorLayout parent, TextView child, View dependency) {
-        initializeIfNeeded(dependency);
+    public boolean onDependentViewChanged(CoordinatorLayout parent, View child, View dependency) {
 
-        Toolbar toolbar = (Toolbar)dependency.findViewById(R.id.toolbar);
-        Log.i("zzz", "toolbar height" + String.valueOf(dependency.getY()));
+        final float parentHorizontalCenter = dependency.getWidth() / 2;
+        final float childHorizontalCenter = child.getWidth() / 2;
+        final float childVerticalCenter = child.getHeight() / 2;
+        final float actionBarVerticalCenter = actionBarHeight / 2;
+        final float expandedPercentageFactor = Math.abs(dependency.getY() / dependency.getHeight());
+        final float visiblePartHeight = dependency.getHeight() - Math.abs(dependency.getY());
+
+        // FIXME: 4/20/16 this is clearly wrong
+        // although the text view is perfectly centered
+        // it looks a bit off-centered because of bottom text row
+        // can't help it right now, so just hardcoded small vertical offset right now
+        final int verticalOffset = 40;
+
+        child.setY(visiblePartHeight / 2 - childVerticalCenter - verticalOffset);
+        child.setY(Math.max(child.getY(), actionBarVerticalCenter - childVerticalCenter));
+
+        if (expandedPercentageFactor > 0.5f) {
+
+            float remindingPercentageFactor = 1 - ((1 - expandedPercentageFactor) * 2f);
+            float textSizePercentageFactor = ((1 - remindingPercentageFactor) * (1 - FINAL_TEXT_SIZE_SCALE))
+                    + FINAL_TEXT_SIZE_SCALE;
+
+            ((TextView) child).setTextSize(INITIAL_TEXT_SIZE * textSizePercentageFactor);
+
+            float currentX = (parentHorizontalCenter - childHorizontalCenter) -
+                    (parentHorizontalCenter - childHorizontalCenter) * remindingPercentageFactor;
+
+            child.setX(currentX);
+            child.setX(Math.max(child.getX(), actionBarContentInset));
+
+        } else {
+
+            child.setX(parentHorizontalCenter - childHorizontalCenter);
+            ((TextView) child).setTextSize(INITIAL_TEXT_SIZE);
+        }
 
         return true;
     }
-
-    private void initializeIfNeeded(View dependency) {
-
-        if (initialToolbarHeight == 0) {
-            initialToolbarHeight = dependency.getHeight();
-        }
-    }
-
-//    @Override
-//    public boolean onDependentViewChanged(CoordinatorLayout parent, CircleImageView child, View dependency) {
-//        maybeInitProperties(child, dependency);
-//
-//        final int maxScrollDistance = (int) (mStartToolbarPosition);
-//        float expandedPercentageFactor = dependency.getY() / maxScrollDistance;
-//
-//        if (expandedPercentageFactor < mChangeBehaviorPoint) {
-//            float heightFactor = (mChangeBehaviorPoint - expandedPercentageFactor) / mChangeBehaviorPoint;
-//
-//            float distanceXToSubtract = ((mStartXPosition - mFinalXPosition)
-//                    * heightFactor) + (child.getHeight()/2);
-//            float distanceYToSubtract = ((mStartYPosition - mFinalYPosition)
-//                    * (1f - expandedPercentageFactor)) + (child.getHeight()/2);
-//
-//            child.setX(mStartXPosition - distanceXToSubtract);
-//            child.setY(mStartYPosition - distanceYToSubtract);
-//
-//            float heightToSubtract = ((mStartHeight - mCustomFinalHeight) * heightFactor);
-//
-//            CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
-//            lp.width = (int) (mStartHeight - heightToSubtract);
-//            lp.height = (int) (mStartHeight - heightToSubtract);
-//            child.setLayoutParams(lp);
-//        } else {
-//            float distanceYToSubtract = ((mStartYPosition - mFinalYPosition)
-//                    * (1f - expandedPercentageFactor)) + (mStartHeight/2);
-//
-//            child.setX(mStartXPosition - child.getWidth()/2);
-//            child.setY(mStartYPosition - distanceYToSubtract);
-//
-//            CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
-//            lp.width = (int) (mStartHeight);
-//            lp.height = (int) (mStartHeight);
-//            child.setLayoutParams(lp);
-//        }
-//        return true;
-//    }
-
-//    private void maybeInitProperties(CircleImageView child, View dependency) {
-//        if (mStartYPosition == 0)
-//            mStartYPosition = (int) (dependency.getY());
-//
-//        if (mFinalYPosition == 0)
-//            mFinalYPosition = (dependency.getHeight() /2);
-//
-//        if (mStartHeight == 0)
-//            mStartHeight = child.getHeight();
-//
-//        if (mStartXPosition == 0)
-//            mStartXPosition = (int) (child.getX() + (child.getWidth() / 2));
-//
-//        if (mFinalXPosition == 0)
-//            mFinalXPosition = mContext.getResources().getDimensionPixelOffset(R.dimen.abc_action_bar_content_inset_material) + ((int) mCustomFinalHeight / 2);
-//
-//        if (mStartToolbarPosition == 0)
-//            mStartToolbarPosition = dependency.getY();
-//
-//        if (mChangeBehaviorPoint == 0) {
-//            mChangeBehaviorPoint = (child.getHeight() - mCustomFinalHeight) / (2f * (mStartYPosition - mFinalYPosition));
-//        }
-//    }
 }
