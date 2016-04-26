@@ -1,9 +1,11 @@
-package team.metropolia.fi.consumptor;
+package team.metropolia.fi.consumptor.Settings;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+
+import team.metropolia.fi.consumptor.R;
 
 /**
  * iConnect iCR

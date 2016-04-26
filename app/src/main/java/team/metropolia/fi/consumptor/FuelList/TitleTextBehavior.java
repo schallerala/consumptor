@@ -1,4 +1,4 @@
-package team.metropolia.fi.consumptor;
+package team.metropolia.fi.consumptor.FuelList;
 
 import android.content.Context;
 import android.support.design.widget.AppBarLayout;
@@ -8,6 +8,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import team.metropolia.fi.consumptor.R;
 
 /**
  * iConnect iCR

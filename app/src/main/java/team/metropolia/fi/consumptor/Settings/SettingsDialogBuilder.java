@@ -1,10 +1,12 @@
-package team.metropolia.fi.consumptor;
+package team.metropolia.fi.consumptor.Settings;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import team.metropolia.fi.consumptor.R;
 
 /**
  * iConnect iCR

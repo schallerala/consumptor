@@ -1,4 +1,4 @@
-package team.metropolia.fi.consumptor;
+package team.metropolia.fi.consumptor.FuelList;
 
 import android.app.Activity;
 import android.content.Context;
@@ -31,7 +31,11 @@ import com.activeandroid.content.ContentProvider;
 
 import java.text.DateFormat;
 
+import team.metropolia.fi.consumptor.FuelEntry.FuelEntryActivity;
 import team.metropolia.fi.consumptor.Models.FuelEntry;
+import team.metropolia.fi.consumptor.R;
+import team.metropolia.fi.consumptor.Settings.Settings;
+import team.metropolia.fi.consumptor.Settings.SettingsDialogBuilder;
 
 /**
  * iConnect iCR

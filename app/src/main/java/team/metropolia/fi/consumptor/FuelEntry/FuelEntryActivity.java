@@ -1,4 +1,4 @@
-package team.metropolia.fi.consumptor;
+package team.metropolia.fi.consumptor.FuelEntry;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import team.metropolia.fi.consumptor.Models.FuelEntry;
+import team.metropolia.fi.consumptor.R;
 
 /**
  * iConnect iCR

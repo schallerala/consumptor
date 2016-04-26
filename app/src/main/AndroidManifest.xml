@@ -18,11 +18,7 @@
             android:authorities="team.metropolia.fi.consumptor"
             android:exported="false"/>
 
-        <activity
-            android:name=".MainActivity"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".FuelEntriesListActivity">
+        <activity android:name=".FuelList.FuelEntriesListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -31,11 +27,11 @@
         </activity>
 
         <activity
-            android:name=".FuelEntryActivity"
-            android:parentActivityName=".FuelEntriesListActivity">
+            android:name=".FuelEntry.FuelEntryActivity"
+            android:parentActivityName=".FuelList.FuelEntriesListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".FuelEntryActivity"/>
+                android:value=".FuelEntry.FuelEntryActivity"/>
         </activity>
 
     </application>
