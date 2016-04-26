@@ -32,19 +32,32 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <EditText
-                android:id="@+id/odometer_edit_text"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/odometer_hint"
-                android:inputType="number"/>
+                android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/fuel_edit_text"
+                <EditText
+                    android:id="@+id/odometer_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/odometer_hint"
+                    android:inputType="number"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/fuel_hint"
-                android:inputType="numberDecimal"/>
+                android:layout_marginTop="8dp"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/fuel_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/fuel_hint"
+                    android:inputType="numberDecimal"/>
+
+            </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/create_button"
