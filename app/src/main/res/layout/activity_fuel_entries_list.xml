@@ -27,42 +27,34 @@
             <LinearLayout
                 android:id="@+id/subtitles_container"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.5">
 
 
-                <TextView
+                <team.metropolia.fi.consumptor.FuelList.ConsumptionView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    app:headlineText="MIN"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="24"
-                    android:textColor="@android:color/white"
-                    android:textSize="30sp"/>
+                    android:layout_weight="1"/>
 
-                <TextView
+                <team.metropolia.fi.consumptor.FuelList.ConsumptionView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    app:headlineText="MAX"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="34"
-                    android:textColor="@android:color/white"
-                    android:textSize="30sp"/>
+                    android:layout_weight="1"/>
 
-                <TextView
+                <team.metropolia.fi.consumptor.FuelList.ConsumptionView
                     android:layout_width="0dp"
+                    app:headlineText="LAST"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="32"
-                    android:textColor="@android:color/white"
-                    android:textSize="30sp"/>
+                    android:layout_weight="1"/>
 
             </LinearLayout>
 
@@ -115,13 +107,10 @@
         app:layout_anchor="@id/scroll_view"
         app:layout_anchorGravity="bottom|end"/>
 
-    <TextView
+    <team.metropolia.fi.consumptor.FuelList.ConsumptionView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:text="42"
-        android:textColor="@android:color/white"
-        app:layout_behavior=".TitleTextBehavior"/>
+        app:layout_behavior=".FuelList.TitleTextBehavior"/>
 
 </android.support.design.widget.CoordinatorLayout>

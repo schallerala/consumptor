@@ -17,7 +17,7 @@ import team.metropolia.fi.consumptor.R;
  * Created by Roman Laitarenko on 4/16/16.
  * Copyright (c) 2016 iConnect POS. All rights reserved
  */
-public class TitleTextBehavior extends CoordinatorLayout.Behavior<View> {
+public class TitleTextBehavior extends CoordinatorLayout.Behavior<ConsumptionView> {
     private static final float FINAL_TEXT_SIZE_SCALE = 0.4f;
     private static final int INITIAL_TEXT_SIZE = 80;
 
@@ -33,12 +33,12 @@ public class TitleTextBehavior extends CoordinatorLayout.Behavior<View> {
     }
 
     @Override
-    public boolean layoutDependsOn(CoordinatorLayout parent, View child, View dependency) {
+    public boolean layoutDependsOn(CoordinatorLayout parent, ConsumptionView child, View dependency) {
         return dependency instanceof AppBarLayout;
     }
 
     @Override
-    public boolean onDependentViewChanged(CoordinatorLayout parent, View child, View dependency) {
+    public boolean onDependentViewChanged(CoordinatorLayout parent, ConsumptionView child, View dependency) {
 
         final float parentHorizontalCenter = dependency.getWidth() / 2;
         final float childHorizontalCenter = child.getWidth() / 2;
@@ -51,7 +51,7 @@ public class TitleTextBehavior extends CoordinatorLayout.Behavior<View> {
         // although the text view is perfectly centered
         // it looks a bit off-centered because of bottom text row
         // can't help it right now, so just hardcoded small vertical offset right now
-        final int verticalOffset = 40;
+        final int verticalOffset = 60;
 
         child.setY(visiblePartHeight / 2 - childVerticalCenter - verticalOffset);
         child.setY(Math.max(child.getY(), actionBarVerticalCenter - childVerticalCenter));
@@ -62,7 +62,9 @@ public class TitleTextBehavior extends CoordinatorLayout.Behavior<View> {
             float textSizePercentageFactor = ((1 - remindingPercentageFactor) * (1 - FINAL_TEXT_SIZE_SCALE))
                     + FINAL_TEXT_SIZE_SCALE;
 
-            ((TextView) child).setTextSize(INITIAL_TEXT_SIZE * textSizePercentageFactor);
+            child.getValueTextView().setTextSize(INITIAL_TEXT_SIZE * textSizePercentageFactor);
+            // TODO: 4/26/16 instead of hiding the label move it to the side or at least hide with animation
+            child.getTitleTextView().setVisibility(View.GONE);
 
             float currentX = (parentHorizontalCenter - childHorizontalCenter) -
                     (parentHorizontalCenter - childHorizontalCenter) * remindingPercentageFactor;
@@ -73,8 +75,11 @@ public class TitleTextBehavior extends CoordinatorLayout.Behavior<View> {
         } else {
 
             child.setX(parentHorizontalCenter - childHorizontalCenter);
-            ((TextView) child).setTextSize(INITIAL_TEXT_SIZE);
+            child.getValueTextView().setTextSize(INITIAL_TEXT_SIZE);
+            child.getTitleTextView().setVisibility(View.VISIBLE);
         }
+
+        child.getHeadlineTextView().setVisibility(View.GONE);
 
         return true;
     }
