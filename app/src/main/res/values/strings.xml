@@ -13,4 +13,6 @@
     <string name="button_cancel">Cancel</string>
     <string name="lp100km_title">Litres per 100 km</string>
     <string name="mpg_title">Miles per gallon</string>
+    <string name="lp100km_short_title">l/100km</string>
+    <string name="mpg_short_title">mpg</string>
 </resources>

@@ -43,16 +43,20 @@ import team.metropolia.fi.consumptor.Settings.SettingsDialogBuilder;
  * Created by Roman Laitarenko on 4/8/16.
  * Copyright (c) 2016 iConnect POS. All rights reserved
  */
-public class FuelEntriesListActivity extends AppCompatActivity {
+public class FuelEntriesListActivity extends AppCompatActivity implements SettingsDialogBuilder.SettingsChangeListener {
 
     private RecyclerView recyclerView;
     private LinearLayout subTitlesContainer;
     private Toolbar toolbar;
-
+    private ConsumptionView mainConsumptionView;
+    private ConsumptionView maxConsumptionView;
+    private ConsumptionView minConsumptionView;
+    private ConsumptionView lastConsumptionView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_fuel_entries_list);
 
         ActiveAndroid.initialize(this);
@@ -66,6 +70,7 @@ public class FuelEntriesListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         setupRecyclerView();
+        invalidateView();
     }
 
     private void bindActivity() {
@@ -73,6 +78,30 @@ public class FuelEntriesListActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         subTitlesContainer = (LinearLayout) findViewById(R.id.subtitles_container);
         recyclerView = (RecyclerView) findViewById(R.id.list_view);
+        mainConsumptionView = (ConsumptionView) findViewById(R.id.main_consumption_view);
+        maxConsumptionView = (ConsumptionView) findViewById(R.id.max_consumption_view);
+        minConsumptionView = (ConsumptionView) findViewById(R.id.min_consumption_view);
+        lastConsumptionView = (ConsumptionView) findViewById(R.id.last_consumption_view);
+    }
+
+    private void invalidateView() {
+
+        Settings.Unit currentUnit = Settings.getCurrentUnit();
+
+        final int average = currentUnit.convert(FuelEntry.getAverageConsumption());
+        final int max = currentUnit.convert(FuelEntry.getMaxConsumption());
+        final int min = currentUnit.convert(FuelEntry.getMinConsumption());
+        final int last = currentUnit.convert(FuelEntry.getLastConsumption());
+
+        mainConsumptionView.getValueTextView().setText(String.valueOf(average));
+        maxConsumptionView.getValueTextView().setText(String.valueOf(max));
+        minConsumptionView.getValueTextView().setText(String.valueOf(min));
+        lastConsumptionView.getValueTextView().setText(String.valueOf(last));
+
+        mainConsumptionView.getTitleTextView().setText(currentUnit.getShortDescriptionResId());
+        maxConsumptionView.getTitleTextView().setText(currentUnit.getShortDescriptionResId());
+        minConsumptionView.getTitleTextView().setText(currentUnit.getShortDescriptionResId());
+        lastConsumptionView.getTitleTextView().setText(currentUnit.getShortDescriptionResId());
     }
 
     private void setupRecyclerView() {
@@ -130,7 +159,7 @@ public class FuelEntriesListActivity extends AppCompatActivity {
 
     private void showSettingsDialog() {
 
-        SettingsDialogBuilder.buildSettingsDialog(this).show();
+        SettingsDialogBuilder.buildSettingsDialog(this, this).show();
     }
 
     @Override
@@ -139,8 +168,13 @@ public class FuelEntriesListActivity extends AppCompatActivity {
 
         if (resultCode == Activity.RESULT_OK) {
 
-            // TODO: 4/13/16 recalculate the average
+            invalidateView();
         }
+    }
+
+    @Override
+    public void onSettingsChanged() {
+        invalidateView();
     }
 
     public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder> {

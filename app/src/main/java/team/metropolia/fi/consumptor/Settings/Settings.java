@@ -21,10 +21,15 @@ public class Settings {
     private static Context sContext;
 
     public enum Unit {
-        LP100KM(R.string.lp100km_title),
-        MPG(R.string.mpg_title);
+        LP100KM(R.string.lp100km_title, R.string.lp100km_short_title),
+        MPG(R.string.mpg_title, R.string.mpg_short_title);
 
-        private @StringRes int descriptionResId;
+        private
+        @StringRes
+        int descriptionResId;
+        private
+        @StringRes
+        int shortDescriptionResId;
 
         @NonNull
         protected static Unit unitFromIndex(int index) {
@@ -36,12 +41,30 @@ public class Settings {
             return Unit.values()[index];
         }
 
-        Unit(@StringRes int descriptionResId) {
+        Unit(@StringRes int descriptionResId, @StringRes int shortDescriptionResId) {
             this.descriptionResId = descriptionResId;
+            this.shortDescriptionResId = shortDescriptionResId;
         }
 
-        public @StringRes int getDescriptionResId() {
+        public
+        @StringRes
+        int getDescriptionResId() {
             return descriptionResId;
+        }
+
+        public
+        @StringRes
+        int getShortDescriptionResId() {
+            return shortDescriptionResId;
+        }
+
+        public int convert(int consumptionInLP100) {
+
+            if (this == LP100KM) {
+                return consumptionInLP100;
+            }
+
+            return (int) (((100 * 3.785411784) / 1.609344) * (1 / (float) consumptionInLP100));
         }
     }
 

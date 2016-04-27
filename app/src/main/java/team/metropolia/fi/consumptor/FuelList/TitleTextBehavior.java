@@ -1,5 +1,6 @@
 package team.metropolia.fi.consumptor.FuelList;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -40,6 +41,8 @@ public class TitleTextBehavior extends CoordinatorLayout.Behavior<ConsumptionVie
     @Override
     public boolean onDependentViewChanged(CoordinatorLayout parent, ConsumptionView child, View dependency) {
 
+        Toolbar bar = (Toolbar) parent.findViewById(R.id.main_toolbar);
+
         final float parentHorizontalCenter = dependency.getWidth() / 2;
         final float childHorizontalCenter = child.getWidth() / 2;
         final float childVerticalCenter = child.getHeight() / 2;
@@ -56,6 +59,7 @@ public class TitleTextBehavior extends CoordinatorLayout.Behavior<ConsumptionVie
         child.setY(visiblePartHeight / 2 - childVerticalCenter - verticalOffset);
         child.setY(Math.max(child.getY(), actionBarVerticalCenter - childVerticalCenter));
 
+
         if (expandedPercentageFactor > 0.5f) {
 
             float remindingPercentageFactor = 1 - ((1 - expandedPercentageFactor) * 2f);
@@ -71,12 +75,14 @@ public class TitleTextBehavior extends CoordinatorLayout.Behavior<ConsumptionVie
 
             child.setX(currentX);
             child.setX(Math.max(child.getX(), actionBarContentInset));
+            bar.setTitle(null);
 
         } else {
 
             child.setX(parentHorizontalCenter - childHorizontalCenter);
             child.getValueTextView().setTextSize(INITIAL_TEXT_SIZE);
             child.getTitleTextView().setVisibility(View.VISIBLE);
+            bar.setTitle(R.string.app_name);
         }
 
         child.getHeadlineTextView().setVisibility(View.GONE);

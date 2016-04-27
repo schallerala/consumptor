@@ -36,6 +36,7 @@
 
 
                 <team.metropolia.fi.consumptor.FuelList.ConsumptionView
+                    android:id="@+id/min_consumption_view"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:headlineText="MIN"
@@ -43,6 +44,7 @@
                     android:layout_weight="1"/>
 
                 <team.metropolia.fi.consumptor.FuelList.ConsumptionView
+                    android:id="@+id/max_consumption_view"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:headlineText="MAX"
@@ -50,6 +52,7 @@
                     android:layout_weight="1"/>
 
                 <team.metropolia.fi.consumptor.FuelList.ConsumptionView
+                    android:id="@+id/last_consumption_view"
                     android:layout_width="0dp"
                     app:headlineText="LAST"
                     android:layout_height="wrap_content"
@@ -108,6 +111,7 @@
         app:layout_anchorGravity="bottom|end"/>
 
     <team.metropolia.fi.consumptor.FuelList.ConsumptionView
+        android:id="@+id/main_consumption_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
