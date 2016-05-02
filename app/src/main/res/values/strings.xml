@@ -15,4 +15,6 @@
     <string name="mpg_title">Miles per gallon</string>
     <string name="lp100km_short_title">l/100km</string>
     <string name="mpg_short_title">mpg</string>
+    <string name="date_hint">Date</string>
+    <string name="time_hint">Time</string>
 </resources>

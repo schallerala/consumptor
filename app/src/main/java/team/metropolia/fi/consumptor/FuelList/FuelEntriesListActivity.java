@@ -67,7 +67,6 @@ public class FuelEntriesListActivity extends AppCompatActivity implements Settin
         toolbar.inflateMenu(R.menu.main_menu);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         setupRecyclerView();
         invalidateView();

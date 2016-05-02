@@ -1,5 +1,8 @@
 package team.metropolia.fi.consumptor.FuelEntry;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,8 +14,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import team.metropolia.fi.consumptor.Models.FuelEntry;
 import team.metropolia.fi.consumptor.R;
@@ -23,31 +29,35 @@ import team.metropolia.fi.consumptor.R;
  * Created by Roman Laitarenko on 4/8/16.
  * Copyright (c) 2016 iConnect POS. All rights reserved
  */
-public class FuelEntryActivity extends AppCompatActivity implements View.OnClickListener {
+public class FuelEntryActivity extends AppCompatActivity
+        implements DatePickerDialog.OnDateSetListener,
+        TimePickerDialog.OnTimeSetListener {
 
     private Toolbar toolbar;
+    private EditText dateEditText;
+    private EditText timeEditText;
     private EditText fuelEditText;
     private EditText odometerEditText;
-    private DatePicker datePicker;
-    private TimePicker timePicker;
-    private Button createButton;
+
+    private Calendar selectedDate = Calendar.getInstance();
+    private DateFormat dateFormatter = new SimpleDateFormat("MMM dd, yyyy", Locale.US);
+    private DateFormat timeFormatter = new SimpleDateFormat("HH:mm", Locale.US);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fuel_entry);
 
+        dateEditText = (EditText) findViewById(R.id.date_edit_text);
+        timeEditText = (EditText) findViewById(R.id.time_edit_text);
         fuelEditText = (EditText) findViewById(R.id.fuel_edit_text);
         odometerEditText = (EditText) findViewById(R.id.odometer_edit_text);
-        datePicker = (DatePicker) findViewById(R.id.date_picker);
-        timePicker = (TimePicker) findViewById(R.id.time_picker);
-        createButton = (Button) findViewById(R.id.create_button);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        createButton.setOnClickListener(this);
+        invalidateView();
     }
 
     private boolean validateForm() {
@@ -66,8 +76,33 @@ public class FuelEntryActivity extends AppCompatActivity implements View.OnClick
         return true;
     }
 
-    @Override
-    public void onClick(View v) {
+    private void invalidateView() {
+
+        dateEditText.setText(dateFormatter.format(selectedDate.getTime()));
+        timeEditText.setText(timeFormatter.format(selectedDate.getTime()));
+    }
+
+    public void onDatePressed(View v) {
+
+        new DatePickerDialog(this,
+                this,
+                selectedDate.get(Calendar.YEAR),
+                selectedDate.get(Calendar.MONTH),
+                selectedDate.get(Calendar.DAY_OF_MONTH))
+                .show();
+    }
+
+    public void onTimePressed(View v) {
+
+        new TimePickerDialog(this,
+                this,
+                selectedDate.get(Calendar.HOUR_OF_DAY),
+                selectedDate.get(Calendar.MINUTE),
+                true)
+                .show();
+    }
+
+    public void onCreateButtonPressed(View v) {
 
         if (!validateForm()) {
             return;
@@ -88,15 +123,7 @@ public class FuelEntryActivity extends AppCompatActivity implements View.OnClick
             return;
         }
 
-        Calendar calendar = Calendar.getInstance();
-
-        calendar.set(Calendar.YEAR, datePicker.getYear());
-        calendar.set(Calendar.MONTH, datePicker.getMonth());
-        calendar.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
-        calendar.set(Calendar.HOUR_OF_DAY, timePicker.getCurrentHour());
-        calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
-
-        createFuelEntryAndFinish(fuel, odometerValue, calendar.getTime());
+        createFuelEntryAndFinish(fuel, odometerValue, selectedDate.getTime());
     }
 
     private void createFuelEntryAndFinish(int fuel, int odometer, Date date) {
@@ -109,5 +136,24 @@ public class FuelEntryActivity extends AppCompatActivity implements View.OnClick
         entry.save();
 
         finish();
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+        selectedDate.set(Calendar.YEAR, year);
+        selectedDate.set(Calendar.MONTH, monthOfYear);
+        selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+        invalidateView();
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+        selectedDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        selectedDate.set(Calendar.MINUTE, minute);
+
+        invalidateView();
     }
 }
