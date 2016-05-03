@@ -3,6 +3,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:gravity="center"
+              android:id="@+id/content_container"
               android:orientation="vertical"
               android:layout_gravity="center">
 
@@ -26,6 +27,9 @@
         android:id="@+id/title_text_view"
         style="@style/TextAppearance.AppCompat.Small"
         android:layout_width="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="5dp"
         android:textColor="?android:attr/textColorSecondaryInverse"
         android:layout_height="wrap_content"
         android:text="l/100km"/>

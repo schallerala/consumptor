@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import team.metropolia.fi.consumptor.R;
@@ -42,6 +43,7 @@ public class TitleTextBehavior extends CoordinatorLayout.Behavior<ConsumptionVie
     public boolean onDependentViewChanged(CoordinatorLayout parent, ConsumptionView child, View dependency) {
 
         Toolbar bar = (Toolbar) parent.findViewById(R.id.main_toolbar);
+        LinearLayout contentContainer = (LinearLayout) child.findViewById(R.id.content_container);
 
         final float parentHorizontalCenter = dependency.getWidth() / 2;
         final float childHorizontalCenter = child.getWidth() / 2;
@@ -68,20 +70,22 @@ public class TitleTextBehavior extends CoordinatorLayout.Behavior<ConsumptionVie
 
             child.getValueTextView().setTextSize(INITIAL_TEXT_SIZE * textSizePercentageFactor);
             // TODO: 4/26/16 instead of hiding the label move it to the side or at least hide with animation
-            child.getTitleTextView().setVisibility(View.GONE);
+//            child.getTitleTextView().setVisibility(View.GONE);
 
             float currentX = (parentHorizontalCenter - childHorizontalCenter) -
                     (parentHorizontalCenter - childHorizontalCenter) * remindingPercentageFactor;
 
             child.setX(currentX);
             child.setX(Math.max(child.getX(), actionBarContentInset));
+            contentContainer.setOrientation(LinearLayout.HORIZONTAL);
             bar.setTitle(null);
 
         } else {
 
             child.setX(parentHorizontalCenter - childHorizontalCenter);
             child.getValueTextView().setTextSize(INITIAL_TEXT_SIZE);
-            child.getTitleTextView().setVisibility(View.VISIBLE);
+//            child.getTitleTextView().setVisibility(View.VISIBLE);
+            contentContainer.setOrientation(LinearLayout.VERTICAL);
             bar.setTitle(R.string.app_name);
         }
 
