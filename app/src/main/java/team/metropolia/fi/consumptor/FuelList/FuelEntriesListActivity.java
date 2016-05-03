@@ -45,6 +45,8 @@ import team.metropolia.fi.consumptor.Settings.SettingsDialogBuilder;
  */
 public class FuelEntriesListActivity extends AppCompatActivity implements SettingsDialogBuilder.SettingsChangeListener {
 
+    static final int FUEL_ENTRY_ACTIVITY_REQUEST_CODE = 8;
+
     private RecyclerView recyclerView;
     private LinearLayout subTitlesContainer;
     private Toolbar toolbar;
@@ -153,7 +155,7 @@ public class FuelEntriesListActivity extends AppCompatActivity implements Settin
 
         Intent intent = new Intent(this, FuelEntryActivity.class);
 
-        startActivityForResult(intent, -1);
+        startActivityForResult(intent, FUEL_ENTRY_ACTIVITY_REQUEST_CODE);
     }
 
     private void showSettingsDialog() {
