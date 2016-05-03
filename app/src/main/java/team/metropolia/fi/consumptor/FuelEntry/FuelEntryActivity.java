@@ -2,6 +2,7 @@ package team.metropolia.fi.consumptor.FuelEntry;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.SharedPreferences;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -14,6 +15,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.activeandroid.query.Select;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,6 +25,7 @@ import java.util.Locale;
 
 import team.metropolia.fi.consumptor.Models.FuelEntry;
 import team.metropolia.fi.consumptor.R;
+import team.metropolia.fi.consumptor.Settings.Settings;
 
 /**
  * iConnect iCR
@@ -128,6 +132,8 @@ public class FuelEntryActivity extends AppCompatActivity
 
     private void createFuelEntryAndFinish(int fuel, int odometer, Date date) {
 
+        FuelEntry prevEntry = new Select().from(FuelEntry.class).orderBy("createdOn desc").executeSingle();
+
         FuelEntry entry = new FuelEntry();
 
         entry.fuel = fuel;
@@ -135,6 +141,10 @@ public class FuelEntryActivity extends AppCompatActivity
         entry.createdOn = new java.sql.Date(date.getTime());
         entry.save();
 
+        if (prevEntry != null) {
+            Settings.addFuelAndDistance(entry.fuel, entry.odometer - prevEntry.odometer);
+        }
+        setResult(RESULT_OK);
         finish();
     }
 

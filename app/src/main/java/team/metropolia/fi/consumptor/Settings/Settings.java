@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 
+import com.activeandroid.query.Select;
+
+import team.metropolia.fi.consumptor.Models.FuelEntry;
 import team.metropolia.fi.consumptor.R;
 
 /**
@@ -17,6 +20,10 @@ public class Settings {
 
     private static final String PREFERENCE_FILE_KEY = "team.metropolia.fi.consumptor.PREFERENCE_FILE_KEY";
     private static final String CURRENT_UNIT_KEY = "CURRENT_UNIT_KEY";
+    private static final String TOTAL_FUEL = "team.metropolia.fi.consumptor.TOTAL_FUEL_KEY";
+    private static final String TOTAL_DISTANCE = "team.metropolia.fi.consumptor.TOTAL_DISTANCE_KEY";
+    private static final String MIN_CONSUMPTION = "team.metropolia.fi.consumptor.MIN_CONSUMPTION_KEY";
+    private static final String MAX_CONSUMPTION = "team.metropolia.fi.consumptor.MAX_CONSUMPTION_KEY";
 
     private static Context sContext;
 
@@ -64,7 +71,7 @@ public class Settings {
                 return consumptionInLP100;
             }
 
-            return (int) (((100 * 3.785411784) / 1.609344) * (1 / (float) consumptionInLP100));
+            return (int) (((100.0 * 3.785411784) / 1.609344) * (1.0 / (float) consumptionInLP100));
         }
     }
 
@@ -88,5 +95,48 @@ public class Settings {
     public static void setCurrentUnit(@NonNull Unit unit) {
 
         getSharedPreferences().edit().putInt(CURRENT_UNIT_KEY, unit.ordinal()).commit();
+    }
+
+    public static void addFuelAndDistance(int fuel, int distance) {
+        int currentFuel = getSharedPreferences().getInt(TOTAL_FUEL, Context.MODE_PRIVATE),
+                currentDistance = getSharedPreferences().getInt(TOTAL_DISTANCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = getSharedPreferences().edit();
+        edit.putInt(TOTAL_FUEL, currentFuel + fuel);
+        edit.putInt(TOTAL_DISTANCE, currentDistance + distance);
+        edit.commit();
+    }
+
+    public static int retrieve_minConsumption() {
+        return getSharedPreferences().getInt(MIN_CONSUMPTION, 0);
+    }
+
+    public static int retrieve_maxConsumption() {
+        return getSharedPreferences().getInt(MAX_CONSUMPTION, 0);
+    }
+
+    public static int calculateAverage() {
+        SharedPreferences pref = getSharedPreferences();
+        int calculatedAverage = (int)
+                (100*((double)pref.getInt(TOTAL_FUEL, 0) / (double)pref.getInt(TOTAL_DISTANCE, 1)));
+
+
+        int minConsumption = pref.getInt(MIN_CONSUMPTION, -3_14_15);
+        int maxConsumption = pref.getInt(MAX_CONSUMPTION, -3_14_15);
+
+        SharedPreferences.Editor edit = pref.edit();
+
+        if (new Select().from(FuelEntry.class).count() == 2) {
+            edit.putInt(MAX_CONSUMPTION, calculatedAverage);
+            edit.putInt(MIN_CONSUMPTION, calculatedAverage);
+        }
+        if (minConsumption == -3_14_15 || calculatedAverage < minConsumption) {
+            edit.putInt(MIN_CONSUMPTION, calculatedAverage);
+        }
+
+        if (maxConsumption == -3_14_15 || calculatedAverage > maxConsumption) {
+            edit.putInt(MAX_CONSUMPTION, calculatedAverage);
+        }
+        edit.commit();
+        return calculatedAverage;
     }
 }
