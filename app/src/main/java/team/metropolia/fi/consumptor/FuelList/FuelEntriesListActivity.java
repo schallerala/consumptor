@@ -37,12 +37,6 @@ import team.metropolia.fi.consumptor.R;
 import team.metropolia.fi.consumptor.Settings.Settings;
 import team.metropolia.fi.consumptor.Settings.SettingsDialogBuilder;
 
-/**
- * iConnect iCR
- * <p/>
- * Created by Roman Laitarenko on 4/8/16.
- * Copyright (c) 2016 iConnect POS. All rights reserved
- */
 public class FuelEntriesListActivity extends AppCompatActivity implements SettingsDialogBuilder.SettingsChangeListener {
 
     static final int FUEL_ENTRY_ACTIVITY_REQUEST_CODE = 8;

@@ -17,12 +17,6 @@ import java.util.TreeMap;
 
 import team.metropolia.fi.consumptor.Settings.Settings;
 
-/**
- * iConnect iCR
- * <p/>
- * Created by Roman Laitarenko on 4/8/16.
- * Copyright (c) 2016 iConnect POS. All rights reserved
- */
 @Table(name = "FuelEntry", id = "_id")
 public class FuelEntry extends Model {
     @Column

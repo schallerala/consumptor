@@ -27,12 +27,6 @@ import team.metropolia.fi.consumptor.Models.FuelEntry;
 import team.metropolia.fi.consumptor.R;
 import team.metropolia.fi.consumptor.Settings.Settings;
 
-/**
- * iConnect iCR
- * <p/>
- * Created by Roman Laitarenko on 4/8/16.
- * Copyright (c) 2016 iConnect POS. All rights reserved
- */
 public class FuelEntryActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener {
