@@ -9,12 +9,6 @@ import android.widget.RadioGroup;
 
 import team.metropolia.fi.consumptor.R;
 
-/**
- * iConnect iCR
- * <p/>
- * Created by Roman Laitarenko on 4/17/16.
- * Copyright (c) 2016 iConnect POS. All rights reserved
- */
 public class SettingsDialogBuilder {
 
     public static AlertDialog buildSettingsDialog(@NonNull Context context, @NonNull final SettingsChangeListener listener) {

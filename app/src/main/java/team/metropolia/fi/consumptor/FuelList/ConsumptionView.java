@@ -9,12 +9,6 @@ import android.widget.TextView;
 
 import team.metropolia.fi.consumptor.R;
 
-/**
- * iConnect iCR
- * <p/>
- * Created by Roman Laitarenko on 4/26/16.
- * Copyright (c) 2016 iConnect POS. All rights reserved
- */
 public class ConsumptionView extends FrameLayout {
 
     private TextView headlineTextView;

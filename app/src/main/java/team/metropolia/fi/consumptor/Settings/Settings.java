@@ -10,12 +10,6 @@ import com.activeandroid.query.Select;
 import team.metropolia.fi.consumptor.Models.FuelEntry;
 import team.metropolia.fi.consumptor.R;
 
-/**
- * iConnect iCR
- * <p/>
- * Created by Roman Laitarenko on 4/17/16.
- * Copyright (c) 2016 iConnect POS. All rights reserved
- */
 public class Settings {
 
     private static final String PREFERENCE_FILE_KEY = "team.metropolia.fi.consumptor.PREFERENCE_FILE_KEY";

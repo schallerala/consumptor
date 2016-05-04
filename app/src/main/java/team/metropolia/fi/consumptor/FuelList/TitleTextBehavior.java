@@ -13,12 +13,6 @@ import android.widget.TextView;
 
 import team.metropolia.fi.consumptor.R;
 
-/**
- * iConnect iCR
- * <p/>
- * Created by Roman Laitarenko on 4/16/16.
- * Copyright (c) 2016 iConnect POS. All rights reserved
- */
 public class TitleTextBehavior extends CoordinatorLayout.Behavior<ConsumptionView> {
     private static final float FINAL_TEXT_SIZE_SCALE = 0.4f;
     private static final int INITIAL_TEXT_SIZE = 80;
