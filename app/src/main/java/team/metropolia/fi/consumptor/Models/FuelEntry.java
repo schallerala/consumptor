@@ -83,6 +83,8 @@ public class FuelEntry extends Model {
             return 0;
         }
 
+        // un-optimized code ...
+        // for clarity of calculation
         FuelEntry firstEntry = entries.get(entries.size() - 1);
         FuelEntry lastEntry = entries.get(0);
         double distanceTravelled = lastEntry.odometer - firstEntry.odometer;
