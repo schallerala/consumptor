@@ -90,9 +90,9 @@ public class FuelEntriesListActivity extends AppCompatActivity implements Settin
         Settings.Unit currentUnit = Settings.getCurrentUnit();
 
         final int average = currentUnit.convert(FuelEntry.getAverageConsumption());
+        final int last = currentUnit.convert(FuelEntry.getLastConsumption());
         final int max = currentUnit.convert(FuelEntry.getMaxConsumption());
         final int min = currentUnit.convert(FuelEntry.getMinConsumption());
-        final int last = currentUnit.convert(FuelEntry.getLastConsumption());
 
         mainConsumptionView.getValueTextView().setText(String.valueOf(average));
         maxConsumptionView.getValueTextView().setText(String.valueOf(max));

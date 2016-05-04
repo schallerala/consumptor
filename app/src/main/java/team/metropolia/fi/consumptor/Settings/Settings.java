@@ -116,27 +116,33 @@ public class Settings {
 
     public static int calculateAverage() {
         SharedPreferences pref = getSharedPreferences();
-        int calculatedAverage = (int)
+
+        return (int)
                 (100*((double)pref.getInt(TOTAL_FUEL, 0) / (double)pref.getInt(TOTAL_DISTANCE, 1)));
+    }
 
+    public static void updateMinMaxWith(int newFuelConsumption) {
+        // create handles from SharedPreferences
+        SharedPreferences pref = getSharedPreferences();
+        SharedPreferences.Editor edit = pref.edit();
 
+        // get min max fuel consumption from SharedPreferences
         int minConsumption = pref.getInt(MIN_CONSUMPTION, -3_14_15);
         int maxConsumption = pref.getInt(MAX_CONSUMPTION, -3_14_15);
 
-        SharedPreferences.Editor edit = pref.edit();
-
         if (new Select().from(FuelEntry.class).count() == 2) {
-            edit.putInt(MAX_CONSUMPTION, calculatedAverage);
-            edit.putInt(MIN_CONSUMPTION, calculatedAverage);
+            edit.putInt(MAX_CONSUMPTION, newFuelConsumption);
+            edit.putInt(MIN_CONSUMPTION, newFuelConsumption);
         }
-        if (minConsumption == -3_14_15 || calculatedAverage < minConsumption) {
-            edit.putInt(MIN_CONSUMPTION, calculatedAverage);
+        if (minConsumption == -3_14_15 || newFuelConsumption < minConsumption) {
+            edit.putInt(MIN_CONSUMPTION, newFuelConsumption);
         }
 
-        if (maxConsumption == -3_14_15 || calculatedAverage > maxConsumption) {
-            edit.putInt(MAX_CONSUMPTION, calculatedAverage);
+        if (maxConsumption == -3_14_15 || newFuelConsumption > maxConsumption) {
+            edit.putInt(MAX_CONSUMPTION, newFuelConsumption);
         }
+
+        // commit changes from all putInt calls above (within the scope of THIS method)
         edit.commit();
-        return calculatedAverage;
     }
 }

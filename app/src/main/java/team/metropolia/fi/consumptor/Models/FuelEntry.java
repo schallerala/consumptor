@@ -91,10 +91,14 @@ public class FuelEntry extends Model {
 
         FuelEntry firstEntry = entries.get(entries.size() - 1);
         FuelEntry lastEntry = entries.get(0);
-        float distance = lastEntry.odometer - firstEntry.odometer;
-        float fuelUsed = lastEntry.fuel;
+        double distanceTravelled = lastEntry.odometer - firstEntry.odometer;
+        double fuelUsed = lastEntry.fuel;
 
-        return (int) ((fuelUsed / distance) * 100);
+        int newLastComsumption = (int) (100.0 * fuelUsed / distanceTravelled);
+
+        Settings.updateMinMaxWith(newLastComsumption);
+
+        return newLastComsumption;
     }
 
     @NonNull
