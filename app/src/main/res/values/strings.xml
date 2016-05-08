@@ -17,4 +17,6 @@
     <string name="mpg_short_title">mpg</string>
     <string name="date_hint">Date</string>
     <string name="time_hint">Time</string>
+    <string name="fuel_entry_date_invalid">Date cannot be before the last created entry</string>
+    <string name="fuel_entry_odometer_invalid">Odometer value cannot be less than the previous one</string>
 </resources>

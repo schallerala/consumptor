@@ -21,6 +21,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import team.metropolia.fi.consumptor.Models.FuelEntry;
@@ -74,6 +75,32 @@ public class FuelEntryActivity extends AppCompatActivity
         return true;
     }
 
+    private boolean validateDateAndOdometerValues(Date date, int odometer) {
+
+        FuelEntry lastEntry = new Select().from(FuelEntry.class)
+                .orderBy("createdOn DESC")
+                .executeSingle();
+
+        if (lastEntry == null) {
+            return true;
+        }
+
+        if (lastEntry.createdOn.getTime() >= date.getTime()) {
+
+            Snackbar.make(dateEditText, R.string.fuel_entry_date_invalid, Snackbar.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (lastEntry.odometer >= odometer) {
+
+            odometerEditText.setError(getString(R.string.fuel_entry_odometer_invalid));
+            return false;
+        }
+
+
+        return true;
+    }
+
     private void invalidateView() {
 
         dateEditText.setText(dateFormatter.format(selectedDate.getTime()));
@@ -118,6 +145,10 @@ public class FuelEntryActivity extends AppCompatActivity
 
             Snackbar.make(fuelEditText, "Cannot save entry", Snackbar.LENGTH_SHORT).show();
 
+            return;
+        }
+
+        if (!validateDateAndOdometerValues(selectedDate.getTime(), odometerValue)) {
             return;
         }
 
